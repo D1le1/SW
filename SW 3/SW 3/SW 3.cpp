@@ -16,6 +16,7 @@ Product* readProductFromFile(std::string, int);
 void writeProductInFile(std::string, Product*, int, int);
 void writeProductInReverseOrder(std::string, Product*, int, int);
 int getCountOfRows(std::string);
+int getFileSize(std::string);
 #pragma endregion
 
 int main()
@@ -24,6 +25,8 @@ int main()
 	Product* products = readProductFromFile("../Text_Files/Product.txt", size);
 	writeProductInFile("../Text_Files/Products.txt",products,size,std::ios_base::out);
 	writeProductInReverseOrder("../Text_Files/Products.txt", products, size, std::ios_base::app);
+	int fileSize = getFileSize("../Text_Files/Products.txt");
+	std::cout << "File size = " << fileSize;
 }
 
 #pragma region Functions
@@ -81,5 +84,17 @@ void writeProductInReverseOrder(std::string fileName, Product* products, int siz
 		file << products[i].index << " " << products[i].cost << " " << products[i].name << " " << products[i].count << std::endl;
 	}
 	file.close();
+}
+
+int getFileSize(std::string fileName)
+{
+	std::ifstream file(fileName);
+	if (!file.is_open())
+		return 0;
+	int fileSize = 0;
+	file.seekg(0, std::ios_base::end);
+	fileSize=file.tellg();
+	file.close();
+	return fileSize;
 }
 #pragma endregion
